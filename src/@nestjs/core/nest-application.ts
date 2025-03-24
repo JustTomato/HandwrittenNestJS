@@ -5,6 +5,9 @@ import 'reflect-metadata'
 export class NestApplication {
   private readonly app: Express = express();
   constructor(protected readonly module) { }
+  use(middleware) {
+    this.app.use(middleware);
+  }
   async init() {
     const controllers = Reflect.getMetadata('controllers', this.module) || [];
     // console.log('controllers', controllers)
@@ -43,6 +46,8 @@ export class NestApplication {
           return data ? req.query[data] : req.query
         case 'Headers':
           return data ? req.headers[data] : req.headers
+        case 'Session':
+          return data ? req.session[data] : req.session
         default:
           return null
       }

@@ -6,6 +6,10 @@ async function bootstrap() {
   app.use(session({
     secret: 'your-secret-key',
     resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24
+    }
 
   }));
   await app.listen(3000)

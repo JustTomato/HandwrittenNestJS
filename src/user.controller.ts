@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Request, Query, Headers } from "@nestjs/common";
+import { Controller, Get, Req, Request, Query, Headers, Session } from "@nestjs/common";
 import { Request as ExpressRequest } from 'express'
 @Controller('users')
 export class UserController {
@@ -20,5 +20,16 @@ export class UserController {
     console.log('headers', headers);
     console.log('accept', accept);
     return `accept:${accept}`
+  }
+  @Get('session')
+  handleSession(@Session() session: any, @Session('pageView') pageView: string) {
+    console.log('session', session);
+    console.log('pageView', pageView);
+    if (session.pageView) {
+      session.pageView++;
+    } else {
+      session.pageView = 1;
+    }
+    return `pageView:${session.pageView}`
   }
 }

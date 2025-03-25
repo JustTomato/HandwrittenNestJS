@@ -34,8 +34,8 @@ export class NestApplication {
     Logger.log(`Nest application successfully started`, 'NestApplication')
   }
   private resolveParams(instance: any, methodName: string, req: ExpressRequest, res: ExpressResponse, next: NextFunction) {
-    const paramsMetadata = Reflect.getMetadata('params', instance, methodName);
-    console.log('paramsMetadata', paramsMetadata)
+    const paramsMetadata = Reflect.getMetadata('params', instance, methodName) ?? [];
+    // console.log('paramsMetadata', paramsMetadata)
     return paramsMetadata.map(paramMetadata => {
       const { key, data } = paramMetadata;
       switch (key) {
@@ -47,7 +47,11 @@ export class NestApplication {
         case 'Headers':
           return data ? req.headers[data] : req.headers
         case 'Session':
-          return data ? req.session[data] : req.session
+          return req;//youwenti 
+        case 'Ip':
+          return req.ip
+        case 'Param':
+          return data ? req.params[data] : req.params;
         default:
           return null
       }

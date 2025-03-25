@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Request, Query, Headers, Session } from "@nestjs/common";
+import { Controller, Get, Req, Request, Query, Headers, Session, Ip, Param } from "@nestjs/common";
 import { Request as ExpressRequest } from 'express'
 @Controller('users')
 export class UserController {
@@ -22,14 +22,28 @@ export class UserController {
     return `accept:${accept}`
   }
   @Get('session')
-  handleSession(@Session() session: any, @Session('pageView') pageView: string) {
-    console.log('session', session);
-    console.log('pageView', pageView);
-    if (session.pageView) {
-      session.pageView++;
+  handleSession(@Session() session: any): string {
+    if (session.views) {
+      session.views++;
     } else {
-      session.pageView = 1;
+      session.views = 1;
     }
-    return `pageView:${session.pageView}`
+    return `Number of views: ${session.views}`;
+  }
+  @Get('ip')
+  getUserIp(@Ip() ip: string) {
+    console.log('ip', ip)
+    return `ip:${ip}`
+  }
+  @Get(':username/info/:age')
+  getUserNameInfo(@Param() params, @Param('username') username: string, @Param('age') age: number) {
+    console.log('params', params)
+    console.log('username', username)
+    console.log('age', age)
+    return `age:${age}`
+  }
+  @Get('star/ab*de')
+  handleWildCard() {
+    return 'handleWildCard'
   }
 }

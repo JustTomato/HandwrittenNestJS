@@ -14,3 +14,5 @@ export const Req = createParamDecorator('Req');
 export const Query = createParamDecorator('Query');
 export const Headers = createParamDecorator('Headers');
 export const Session = createParamDecorator('Session');
+export const Ip = createParamDecorator('Ip');
+export const Param = createParamDecorator('Param');
